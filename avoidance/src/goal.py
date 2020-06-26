@@ -18,16 +18,11 @@ def main():
     goal.header.stamp = rospy.Time.now()
     goal.pose.position.x = float(x)
     goal.pose.position.y = float(y)
-<<<<<<< HEAD
     #goal.pose.position.z = float(z)
     goal.pose.orientation.z = 1
+    
     #for i in range(1000000):
     rospy.sleep(1)
-=======
-    goal.pose.position.z = float(z)
-    publish = rospy.Publisher('/move_base_simple/goal', PoseStamped,queue_size=20)
-
->>>>>>> 7923942e7d9ae33a6a070eee25e3110bd4a54c11
     publish.publish(goal)
 
 if __name__ == '__main__':
