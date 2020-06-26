@@ -18,7 +18,7 @@ def main():
     goal.pose.position.x = float(x)
     goal.pose.position.y = float(y)
     goal.pose.position.z = float(z)
-    publish = rospy.Publisher('/move_base_simple/goal ', PoseStamped,queue_size=20)
+    publish = rospy.Publisher('/move_base_simple/goal', PoseStamped,queue_size=20)
 
     publish.publish(goal)
 
