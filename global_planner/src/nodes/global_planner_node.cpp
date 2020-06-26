@@ -258,11 +258,11 @@ void GlobalPlannerNode::octomapFullCallback(const octomap_msgs::Octomap& msg) {
 
   ros::Time current = ros::Time::now();
   // Update map at a fixed rate. This is useful on setting replanning rates for the planner.
-  // if ((current - last_wp_time_).toSec() < mapupdate_dt_) {
-  //   return;
-  // }
+  if ((current - last_wp_time_).toSec() < mapupdate_dt_) {
+    return;
+  }
   last_wp_time_ = ros::Time::now();
-  ROS_INFO("this update called");
+
   octomap::AbstractOcTree* tree = octomap_msgs::msgToMap(msg);
 
   global_planner_.updateFullOctomap(tree);
@@ -300,7 +300,7 @@ void GlobalPlannerNode::setCurrentPath(const std::vector<geometry_msgs::PoseStam
   path_.clear();
 
   if (poses.size() < 2) {
-    ROS_INFO(" hmmm Received empty path\n");
+    ROS_INFO("  Received empty path\n");
     return;
   }
   last_goal_ = poses[0];
@@ -317,8 +317,7 @@ void GlobalPlannerNode::cmdLoopCallback(const ros::TimerEvent& event) {
   // Check if all information was received
   ros::Time now = ros::Time::now();
 
-  // ros::Duration since_last_cloud = now - last_wp_time_;
-  ros::Duration since_last_cloud(0.001);
+  ros::Duration since_last_cloud = now - last_wp_time_;
   ros::Duration since_start = now - start_time_;
 
   avoidance_node_.checkFailsafe(since_last_cloud, since_start, hover_);

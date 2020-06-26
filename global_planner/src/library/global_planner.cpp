@@ -67,7 +67,6 @@ void GlobalPlanner::setFrame(std::string frame_id) { frame_id_ = frame_id; }
 // Going through the octomap can take more than 50 ms for 100m x 100m explored
 // map
 void GlobalPlanner::updateFullOctomap(octomap::AbstractOcTree* tree) {
-  ROS_INFO("update was called");
   risk_cache_.clear();
   if (octree_) {
     delete octree_;
@@ -180,9 +179,9 @@ bool GlobalPlanner::isLegal(const Node& node) {
 }
 
 double GlobalPlanner::getRisk(const Cell& cell) {
-  // if (risk_cache_.find(cell) != risk_cache_.end()) {
-  //   return risk_cache_[cell];
-  // }
+  if (risk_cache_.find(cell) != risk_cache_.end()) {
+    return risk_cache_[cell];
+  }
 
   double risk = getSingleCellRisk(cell);
   int radius = static_cast<int>(std::ceil(robot_radius_ / octree_resolution_));
@@ -485,19 +484,9 @@ bool GlobalPlanner::getGlobalPath() {
   Cell t = Cell(goal_pos_);
   current_cell_blocked_ = isOccupied(s);
 
-  ROS_INFO("curr_pos_: %2.2f,%2.2f,%2.2f\t s: %2.2f,%2.2f,%2.2f", curr_pos_.x, curr_pos_.y, curr_pos_.z);
-  // // ROS_INFO("goal_pos: %2.2f,%2.2f,%2.2f\t s: %2.2f,%2.2f,%2.2f", goal_pos_.x, goal_pos_.y, goal_pos_.z);
-  // current_cell_blocked_ = false;
-  // max_cell_risk_= 100; // xD
-
   if (goal_must_be_free_ && getRisk(t) > max_cell_risk_) {
     // If goal is occupied, no path is published
-    ROS_INFO("Goal position is occupied ..//");
-    ROS_INFO("goal must_be_free %d", goal_must_be_free_);
-    ROS_INFO("risk val %.4f", getRisk(t));
-    ROS_INFO("max risk val %.4f", max_cell_risk_);
-    ROS_INFO("risk val %d", false);
-
+    ROS_INFO("Goal position is occupied");
     goal_is_blocked_ = true;
     return false;
   } else if (current_cell_blocked_) {
