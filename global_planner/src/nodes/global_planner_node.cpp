@@ -38,8 +38,8 @@ GlobalPlannerNode::GlobalPlannerNode(const ros::NodeHandle& nh, const ros::NodeH
   global_goal_pub_ = nh_.advertise<geometry_msgs::PointStamped>("/global_goal", 10);
   global_temp_goal_pub_ = nh_.advertise<geometry_msgs::PointStamped>("/global_temp_goal", 10);
   explored_cells_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("/explored_cells", 10);
-  mavros_waypoint_publisher_ = nh_.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_position/local", 10);
-  mavros_obstacle_free_path_pub_ = nh_.advertise<mavros_msgs::Trajectory>("/mavros/trajectory/generated", 10);
+  mavros_waypoint_publisher_ = nh_.advertise<geometry_msgs::PoseStamped>("/input/goal", 10);
+  //mavros_obstacle_free_path_pub_ = nh_.advertise<mavros_msgs::Trajectory>("/mavros/trajectory/generated", 10);
   current_waypoint_publisher_ = nh_.advertise<geometry_msgs::PoseStamped>("/current_setpoint", 10);
   pointcloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>("/cloud_in", 10);
 
@@ -404,7 +404,7 @@ void GlobalPlannerNode::publishSetpoint() {
   velocity_setpoint.linear.y = NAN;
   velocity_setpoint.linear.z = NAN;
   avoidance::transformToTrajectory(obst_free_path, setpoint, velocity_setpoint);
-  mavros_obstacle_free_path_pub_.publish(obst_free_path);
+  // mavros_obstacle_free_path_pub_.publish(obst_free_path);
 }
 
 bool GlobalPlannerNode::isCloseToGoal() { return distance(current_goal_, last_pos_) < 1.5; }
