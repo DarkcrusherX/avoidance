@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="world_file_name"    default="simple_obstacle" />
-    <arg name="world_path" default="$(find avoidance)/sim/worlds/indoor.world" />
+    <arg name="world_path" default="$(find avoidance)/sim/worlds/indoor3.world" />
     <arg name="pointcloud_topics" default="[/camera/depth/points]"/>
     <arg name="start_pos_x" default="0.5" />
     <arg name="start_pos_y" default="0.5" />
