@@ -82,10 +82,11 @@ void LocalPlannerNodelet::InitializeNodelet() {
                                                                     &LocalPlannerNodelet::velocityCallback, this);
   state_sub_ = nh_.subscribe("/mavros/state", 1, &LocalPlannerNodelet::stateCallback, this);
   clicked_point_sub_ = nh_.subscribe("/clicked_point", 1, &LocalPlannerNodelet::clickedPointCallback, this);
-  clicked_goal_sub_ = nh_.subscribe("/move_base_simple/goal", 1, &LocalPlannerNodelet::clickedGoalCallback, this);
+  clicked_goal_sub_ = nh_.subscribe("/getrekt", 1, &LocalPlannerNodelet::clickedGoalCallback, this);
   fcu_input_sub_ = nh_.subscribe("/mavros/trajectory/desired", 1, &LocalPlannerNodelet::fcuInputGoalCallback, this);
   goal_topic_sub_ = nh_.subscribe("/input/goal_position", 1, &LocalPlannerNodelet::updateGoalCallback, this);
   distance_sensor_sub_ = nh_.subscribe("/mavros/altitude", 1, &LocalPlannerNodelet::distanceSensorCallback, this);
+  
   mavros_vel_setpoint_pub_ = nh_.advertise<geometry_msgs::Twist>("/mavros/setpoint_velocity/cmd_vel_unstamped", 10);
   mavros_pos_setpoint_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_position/local", 10);
   mavros_obstacle_free_path_pub_ = nh_.advertise<mavros_msgs::Trajectory>("/mavros/trajectory/generated", 10);
@@ -95,7 +96,7 @@ void LocalPlannerNodelet::InitializeNodelet() {
   visualizer_.initializePublishers(nh_);
 
   // pass initial goal into local planner
-  local_planner_->applyGoal();
+  local_planner_->applyGoal();s
 
   setSystemStatus(MAV_STATE::MAV_STATE_BOOT);
 
