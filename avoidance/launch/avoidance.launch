@@ -19,7 +19,7 @@
     </include>
 
     <!-- Load custom console configuration -->
-    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find local)/resource/custom_rosconsole.conf"/>
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find local_planner)/resource/custom_rosconsole.conf"/>
 
     <!-- Launch local planner -->
     <arg name="manager"             default="local_planner_manager"/>
@@ -33,7 +33,7 @@
     </node>
 
     <!-- Global planner -->
-    <include file="$(find global_planner)/launch/maploader.launch" >
+    <include file="$(find global_planner)/launch/global_planner_octomap.launch" >
         <arg name="pointcloud_topics" value="$(arg pointcloud_topics)" />
         <arg name="start_pos_x" value="$(arg start_pos_x)" />
         <arg name="start_pos_y" value="$(arg start_pos_y)" />

@@ -96,7 +96,7 @@ void LocalPlannerNodelet::InitializeNodelet() {
   visualizer_.initializePublishers(nh_);
 
   // pass initial goal into local planner
-  local_planner_->applyGoal();s
+  local_planner_->applyGoal();
 
   setSystemStatus(MAV_STATE::MAV_STATE_BOOT);
 
